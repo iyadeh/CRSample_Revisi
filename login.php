@@ -17,7 +17,10 @@
         $user = $_POST['username'];
         $pass = $_POST['password'];
         $pdo = pdo_connect();
-        $stmt = $pdo->prepare('SELECT * FROM users WHERE username = "' . $user . '" AND password = "' . password_hash($pass, PASSWORD_BCRYPT) . '" LIMIT 1');
+        //$stmt = $pdo->prepare('SELECT * FROM users WHERE username = "' . $user . '" AND password = "' . password_hash($pass, PASSWORD_BCRYPT) . '" LIMIT 1');
+        $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ? AND password = ? LIMIT 1');
+        $stmt->bindParam(1, $user);
+        $stmt->bindParam(2, password_hash($pass, PASSWORD_BCRYPT));
         $stmt->execute();
         $notif = $stmt->rowCount();
         if ($stmt->rowCount() > 0) {
