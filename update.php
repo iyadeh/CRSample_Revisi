@@ -10,8 +10,10 @@ if (isset($_GET['id'])) {
         $phone = $_POST['phone'];
         $title = $_POST['title'];
         // Insert new record into the contacts table
+        $pdo->beginTransaction();
         $stmt = $pdo->prepare('UPDATE contacts SET name = ?, email = ?, phone = ?, title = ? WHERE id = ?');
         $stmt->execute([$name, $email, $phone, $title, $_GET['id']]);
+        $pdo->commit();
         header("location:index.php");
     }
 
